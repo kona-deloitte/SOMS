@@ -1,0 +1,27 @@
+# Java
+*.class
+*.log
+*.jar
+*.war
+*.iml
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# IntelliJ
+.idea/
+*.iws
+*.ipr
+*.iml
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
