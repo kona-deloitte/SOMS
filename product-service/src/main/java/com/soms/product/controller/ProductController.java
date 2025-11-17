@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
@@ -16,6 +17,7 @@ public class ProductController {
     public ProductController(ProductService service) {
         this.service = service;
     }
+
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
@@ -37,9 +39,21 @@ public class ProductController {
         return ResponseEntity.ok(service.update(id, product));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Product> updatePartial(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        Product updated = service.updatePartial(id, updates);
+        return ResponseEntity.ok(updated);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/reduce")
+    public ResponseEntity<Product> reduceQuantity(@PathVariable Long id, @RequestParam int quantity) {
+        return ResponseEntity.ok(service.reduceQuantity(id, quantity));
     }
 }
