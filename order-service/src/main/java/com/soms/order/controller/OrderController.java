@@ -32,4 +32,10 @@ public class OrderController {
     public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(svc.getOrderById(id));
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<OrderResponse>> getOrdersByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(svc.getOrdersByUser(userId));
+    }
+
 }
