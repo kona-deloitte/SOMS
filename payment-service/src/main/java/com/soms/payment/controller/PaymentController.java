@@ -32,4 +32,9 @@ public class PaymentController {
     public ResponseEntity<List<PaymentResponse>> getAllPayments() {
         return ResponseEntity.ok(svc.getAll());
     }
+
+    @GetMapping({"/byUser/{userId}"})
+    public ResponseEntity<List<PaymentResponse>> getPaymentsByUserId(@PathVariable Long userId){
+        return ResponseEntity.ok(svc.getPaymentsByUserId(userId));
+    }
 }

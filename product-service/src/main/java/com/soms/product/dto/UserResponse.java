@@ -1,4 +1,4 @@
-package com.soms.order.dto;
+package com.soms.product.dto;
 
 import lombok.Data;
 

@@ -1,9 +1,12 @@
 package com.soms.product.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Data
 @Entity
 @Table(name = "products")
 public class Product {
@@ -41,23 +44,4 @@ public class Product {
         this.category = category;
     }
 
-    // Getters and setters
-
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getSku() { return sku; }
-    public void setSku(String sku) { this.sku = sku; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public Integer getQuantity() { return quantity; }
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-    public Instant getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }

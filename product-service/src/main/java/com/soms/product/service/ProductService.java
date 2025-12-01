@@ -3,6 +3,9 @@ package com.soms.product.service;
 import com.soms.product.model.Product;
 import com.soms.product.repository.ProductRepository;
 import com.soms.product.exception.ProductNotFoundException;
+import com.soms.product.feign.UserClient;
+import com.soms.product.dto.UserResponse;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,19 +13,18 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-
 @Service
 public class ProductService {
 
     private final ProductRepository repo;
+    private final UserClient userClient;
 
-    public ProductService(ProductRepository repo) {
+    public ProductService(ProductRepository repo, UserClient userClient) {
         this.repo = repo;
+        this.userClient = userClient;
     }
 
-    public List<Product> getAll() {
-        return repo.findAll();
-    }
+    public List<Product> getAll() { return repo.findAll(); }
 
     public Product getById(Long id) {
         return repo.findById(id)
@@ -33,20 +35,15 @@ public class ProductService {
         return repo.save(p);
     }
 
-//
     public void delete(Long id) {
         if (!repo.existsById(id)) throw new ProductNotFoundException("Product not found with id: " + id);
         repo.deleteById(id);
     }
 
     @Transactional
-
     public Product reduceQuantity(Long id, int quantity) {
-        Product p = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-        if (p.getQuantity() < quantity) {
-            throw new RuntimeException("Not enough stock!");
-        }
+        Product p = getById(id);
+        if (p.getQuantity() < quantity) throw new RuntimeException("Not enough stock!");
         p.setQuantity(p.getQuantity() - quantity);
         return repo.save(p);
     }
@@ -65,12 +62,9 @@ public class ProductService {
         return repo.save(existing);
     }
 
-
-
     @Transactional
     public Product updatePartial(Long id, Map<String, Object> updates) {
-        Product product = repo.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+        Product product = getById(id);
 
         updates.forEach((key, value) -> {
             switch (key) {
@@ -86,5 +80,18 @@ public class ProductService {
         return repo.save(product);
     }
 
+    @Transactional
+    public Product addStock(Long id, int amount, Long userId) {
 
+        if (userId == null) throw new RuntimeException("User ID required");
+
+        UserResponse user = userClient.getUserById(userId);
+        if (user == null || !user.isAdmin) {
+            throw new RuntimeException("Access denied. Admin only action.");
+        }
+
+        Product p = getById(id);
+        p.setQuantity(p.getQuantity() + amount);  // IMPORTANT: INCREMENT
+        return repo.save(p);
+    }
 }

@@ -52,6 +52,13 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/addStock")
+    public ResponseEntity<Product> addStock(@PathVariable Long id, @RequestParam int amount, @RequestHeader(name="X-User-Id", required=false) Long userId) {
+        Product updated = service.addStock(id, amount, userId);
+        return ResponseEntity.ok(updated);
+    }
+
+
     @PutMapping("/{id}/reduce")
     public ResponseEntity<Product> reduceQuantity(@PathVariable Long id, @RequestParam int quantity) {
         return ResponseEntity.ok(service.reduceQuantity(id, quantity));
