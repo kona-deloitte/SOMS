@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+</head>
+
+<body>
+<header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="user.html">User Portal</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Products</h2>
+
+    <label>Filter By Category:</label>
+    <select id="categoryFilter" onchange="fetchProducts()"></select>
+
+    <div id="productList"></div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    loadCategories();
+    fetchProducts();
+</script>
+</body>
+</html>

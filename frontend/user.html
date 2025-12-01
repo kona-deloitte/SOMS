@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Portal</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+</head>
+
+<body>
+<header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="user.html" class="active">User Portal</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>User Profile</h2>
+
+    <input id="userId" type="number" placeholder="Enter User ID"/>
+    <button onclick="fetchUserDetails()">View Profile</button>
+
+    <div id="userDetails"></div>
+
+    <div id="userActions" style="display:none; margin-top:20px;">
+        <button onclick="location.href='orders.html'">
+            <span class="material-icons">receipt_long</span> View Orders
+        </button>
+
+        <button onclick="location.href='payments.html'">
+            <span class="material-icons">payments</span> Payment History
+        </button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
